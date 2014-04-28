@@ -1,0 +1,24 @@
+#!/usr/bin/expect
+
+#example state:
+#-------------------X-------XX------XO--------------------------- O
+
+if { $argc != 2 } {
+    puts "USAGE: ./go.exp <BOARD> <PLAYER>"
+    exit 1
+}
+
+log_user 0
+
+spawn /Users/michelle/edax/4.3.2/bin/mEdax
+
+expect ">"
+send "setboard [lindex $argv 0] [lindex $argv 1]\n"
+send "go\n"
+
+expect "Edax plays *"
+
+regexp {([A-H][1-8])} $expect_out(buffer) _ out
+
+puts $out
+exit 0
